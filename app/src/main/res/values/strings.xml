@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ABT EDC KD</string>
+    <string name="tv_product">Product Code</string>
+    <string name="tv_location">Location</string>
+    <string name="scan">scan code</string>
+    <string name="ok">OK</string>
+    <string name="button">Button</string>
+
+
+</resources>
