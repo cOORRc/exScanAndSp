@@ -69,15 +69,10 @@ public class SPrefCheckBox extends AppCompatActivity {
     }
 
     @Override
-    public void onPause() { //แอพหยุดใช้งานชั่วคราว  ปิดการใช้งานแอพแล้วไปหน้าแรกเลย
-        super.onPause();
-//        savePreferences();
-    }
-
-    @Override
     public void onResume() {  //เรียกแอกกลับมาใช้งานอีกครั้ง
         super.onResume();
         loadPreferences();
+//        เาอ api เก็บไว้ในนี้
 //        Intent gotonext = new Intent(SPrefCheckBox.this,Main2Activity.class);
 //        startActivity(gotonext);
         if (input_password.getText().toString().trim().length() > 0){
@@ -85,6 +80,12 @@ public class SPrefCheckBox extends AppCompatActivity {
             Intent gotonext = new Intent(SPrefCheckBox.this,Main2Activity.class);
             startActivity(gotonext);
         }
+    }
+
+    @Override
+    public void onPause() { //แอพหยุดใช้งานชั่วคราว  ปิดการใช้งานแอพแล้วไปหน้าแรกเลย
+        super.onPause();
+//        savePreferences();
     }
 
     private void savePreferences() {
@@ -117,6 +118,14 @@ public class SPrefCheckBox extends AppCompatActivity {
         System.out.println("onResume load name: " + UnameValue);
         System.out.println("onResume load password: " + PasswordValue);
         Log.i("SharedPreferences","editor"+UnameValue+","+PasswordValue);
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.menu:
+                Intent gotoMenu = new Intent(SPrefCheckBox.this,MainMenu.class);
+                startActivity(gotoMenu);
+        }
     }
 }
 

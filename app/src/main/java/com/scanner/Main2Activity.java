@@ -6,19 +6,24 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public class Main2Activity extends AppCompatActivity {
-//    public static final int REQUEST_QR_SCAN = 4;
+
     EditText textContent,textContent2;
 //    SharedPreferences Q;
     private static final String PREFS_NAME = "preferences";
     private static final String PREF_UNAME = "Username";
     private static final String PREF_PASSWORD = "Password";
+    private String barcode,barcode2;
+
+    Button buttonIntent,buttonIntent2;
 
 
     @Override
@@ -31,41 +36,56 @@ public class Main2Activity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME,
                 Context.MODE_PRIVATE);
         String text = settings.getString(PREF_UNAME, "");
+
+        Toast.makeText(getApplicationContext(),"please permission your camera",Toast.LENGTH_LONG).show();
         textContent.setText(text);
+        initView();
+    }
+    private void initView() {
+        buttonIntent = (Button)findViewById(R.id.button);
+        buttonIntent2 = (Button)findViewById(R.id.button2);
+    }
 
-//        String text = Q.getString(TEXT, "");
-        Button buttonIntent = (Button)findViewById(R.id.button);
-        buttonIntent.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-//                Intent intent =
-//                        new Intent("com.google.zxing.client.android.SCAN");
-//                startActivityForResult(Intent.createChooser(intent
-//                        , "Scan with"), 1);
-////                        , "Scan with"), REQUEST_QR_SCAN);
-            }
-        });
-        Button buttonIntent2 = (Button)findViewById(R.id.button2);
-        buttonIntent2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent2 = new Intent("com.google.zxing.client.android.SCAN");
-                startActivityForResult(Intent.createChooser(intent2,"Scan with"), 2);
+    public void onClick(View view) {
 
-            }
-        });
+        if(view.getId() == R.id.button) {
+            Intent intents = new Intent(Main2Activity.this,ScanActivity.class);
+            startActivityForResult(intents, 0);
+            Log.i("push","button 1");
+        }
+
+        if(view.getId() == R.id.button2) {
+            Intent intents2 = new Intent(Main2Activity.this,ScanActivity.class);
+            startActivityForResult(intents2, 1);
+            Log.i("push","button 2");
+        }
+
+        if(view.getId() == R.id.menu) {
+            Intent gotoMenu = new Intent(Main2Activity.this,MainMenu.class);
+            startActivity(gotoMenu);
+        }
+
+        if(view.getId() == R.id.SP) {
+            Intent gotoSP = new Intent(Main2Activity.this,SPrefCheckBox.class);
+            startActivity(gotoSP);
+        }
     }
 
     @SuppressLint("MissingSuperCall")
-    public void onActivityResult(int requestCode, int resultCode
-            , Intent intent) {
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-//        if (requestCode == REQUEST_QR_SCAN && resultCode == RESULT_OK) {
-            String contents = intent.getStringExtra("SCAN_RESULT");
-            textContent.setText(contents);
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                barcode = intent.getStringExtra("SCAN_RESULT");
+                textContent.setText(barcode);
+                Toast.makeText(this,"button 1 : "+barcode,Toast.LENGTH_LONG).show();
+            }
         }
-        if (requestCode == 2 && resultCode == RESULT_OK) {
-//        if (requestCode == REQUEST_QR_SCAN && resultCode == RESULT_OK) {
-            String contents2 = intent.getStringExtra("SCAN_RESULT");
-            textContent2.setText(contents2);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                barcode = intent.getStringExtra("SCAN_RESULT");
+                textContent2.setText(barcode);
+                Toast.makeText(this,"button 2 : "+barcode,Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -79,6 +99,7 @@ public class Main2Activity extends AppCompatActivity {
         Main2Activity.this.finish();
         Toast.makeText(Main2Activity.this,"THANK YOU",Toast.LENGTH_SHORT).show();
     }
+
 //    public void exit(View view){
 //        moveTaskToBack(true);
 //        Main2Activity.this.finish();

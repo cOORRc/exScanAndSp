@@ -98,6 +98,4 @@ public class SharedPref extends AppCompatActivity {
         finish();
     }
 
-    public void onCheckBoxClick(View view) {
-    }
 }
